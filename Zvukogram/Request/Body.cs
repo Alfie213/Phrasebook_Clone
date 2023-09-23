@@ -11,7 +11,7 @@ using Zvukogram.Json;
 namespace Zvukogram.Request;
 
 /// <summary>
-/// Тело запроса к API Звукограма.
+/// Тело запроса.
 /// </summary>
 [Serializable]
 public sealed class Body
@@ -46,7 +46,7 @@ public sealed class Body
     public string Token { get; }
 
     /// <summary>
-    /// Почта, зарегистрированная на сайте Звукограма
+    /// Зарегистрированная почта.
     /// </summary>
     public string Email { get; }
 
