@@ -5,6 +5,7 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 using Zvukogram.Json;
 
@@ -14,9 +15,12 @@ namespace Zvukogram.Request;
 /// Тело запроса.
 /// </summary>
 [Serializable]
-public sealed class Body
+internal sealed class Body
 {
-    private const float DefaultSpeed = 1;
+    /// <summary>
+    /// Стандартное значение <see cref="Speed"/>.
+    /// </summary>
+    internal const float DefaultSpeed = 1;
 
     private readonly static JsonSerializerSettings s_settings = new()
     {
@@ -36,14 +40,25 @@ public sealed class Body
     {
         ArgumentNullException.ThrowIfNull(configuration, nameof(configuration));
 
-        Token = GetConfigurationValue(configuration, "Token");
         Email = GetConfigurationValue(configuration, "Email");
+        Token = GetConfigurationValue(configuration, "Token");
     }
 
     /// <summary>
-    /// Секретный ключ для доступа к API, связанный с <see cref="Email"/>.
+    /// Создаёт экземпляр класса.
     /// </summary>
-    public string Token { get; }
+    /// <param name="configuration">Конфигурация.</param>
+    /// <param name="parameters">Параметры запроса.</param>
+    [SetsRequiredMembers]
+    public Body(IConfiguration configuration, Parameters parameters) : this(configuration)
+    {
+        Text = parameters.Text;
+        Voice = parameters.Voice;
+        Format = parameters.Format;
+        Speed = parameters.Speed;
+        Pitch = parameters.Pitch;
+        Emotion = parameters.Emotion;
+    }
 
     /// <summary>
     /// Зарегистрированная почта.
@@ -51,14 +66,19 @@ public sealed class Body
     public string Email { get; }
 
     /// <summary>
-    /// Название голоса, которым будет озвучен <see cref="Text"/>.
+    /// Секретный ключ для доступа к API, связанный с <see cref="Email"/>.
     /// </summary>
-    public required string Voice { get; set; }
+    public string Token { get; }
 
     /// <summary>
     /// Текст, который необходимо озвучить.
     /// </summary>
-    public required string Text { get; set; }
+    public required string Text { get; init; }
+
+    /// <summary>
+    /// Голос, которым будет озвучен <see cref="Text"/>.
+    /// </summary>
+    public required string Voice { get; init; }
 
     /// <inheritdoc cref="Format"/>
     [JsonConverter(typeof(StringEnumConverter), typeof(CamelCaseNamingStrategy))]
@@ -99,6 +119,6 @@ public sealed class Body
     private static string GetConfigurationValue(IConfiguration configuration, string key)
     {
         return configuration[key]
-            ?? throw new KeyNotFoundException($"Не удалось найти ключ {key} в файле конфигурации.");
+            ?? throw new KeyNotFoundException(key);
     }
 }

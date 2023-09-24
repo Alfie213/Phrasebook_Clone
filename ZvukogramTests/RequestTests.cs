@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Configuration;
+
 using Zvukogram.Request;
 
 namespace ZvukogramTests;
@@ -18,17 +19,13 @@ public class RequestTests
     {
         var initialData = new Dictionary<string, string?>
         {
-            ["token"] = "token",
-            ["email"] = "email"
+            ["email"] = "email",
+            ["token"] = "token"
         };
 
-        var configuration = CreateConfiguration(initialData);
+        var configuration = Helper.CreateConfiguration(initialData);
 
-        _request = new Body(configuration)
-        {
-            Text = "text",
-            Voice = "voice"
-        };
+        _request = CreateBody(configuration);
     }
 
     [TestMethod]
@@ -39,15 +36,11 @@ public class RequestTests
             ["email"] = "email"
         };
 
-        var configuration = CreateConfiguration(initialData);
+        var configuration = Helper.CreateConfiguration(initialData);
 
         Assert.ThrowsException<KeyNotFoundException>(() =>
         {
-            new Body(configuration)
-            {
-                Text = "text",
-                Voice = "voice"
-            };
+            CreateBody(configuration);
         });
     }
 
@@ -65,11 +58,7 @@ public class RequestTests
 
         Assert.ThrowsException<KeyNotFoundException>(() =>
         {
-            new Body(configuration)
-            {
-                Text = "text",
-                Voice = "voice"
-            };
+            CreateBody(configuration);
         });
     }
 
@@ -138,7 +127,7 @@ public class RequestTests
     [TestMethod]
     public void Serialize()
     {
-        var expected = "{\"token\":\"token\",\"email\":\"email\",\"voice\":\"voice\",\"text\":\"text\"}";
+        const string expected = "{\"email\":\"email\",\"token\":\"token\",\"text\":\"text\",\"voice\":\"voice\"}";
 
         Assert.AreEqual(expected, _request.Serialize());
     }
@@ -153,7 +142,7 @@ public class RequestTests
         var substring = $"\"emotion\":\"{emotion.ToString().ToLowerInvariant()}\"}}";
         var serialized = _request.Serialize();
 
-        Assert.IsTrue(serialized.Contains(substring));
+        Assert.IsTrue(serialized.Contains(substring, StringComparison.Ordinal));
     }
 
     [DataTestMethod]
@@ -166,7 +155,7 @@ public class RequestTests
         var serialized = _request.Serialize();
         var substring = $"\"format\":\"{format.ToString().ToLowerInvariant()}\"}}";
 
-        Assert.IsTrue(serialized.Contains(substring));
+        Assert.IsTrue(serialized.Contains(substring, StringComparison.Ordinal));
     }
 
     [TestMethod]
@@ -177,7 +166,7 @@ public class RequestTests
         var serialized = _request.Serialize();
         var substring = $"\"pitch\":{_request.Pitch}}}";
 
-        Assert.IsTrue(serialized.EndsWith(substring));
+        Assert.IsTrue(serialized.EndsWith(substring, StringComparison.Ordinal));
     }
 
     [TestMethod]
@@ -188,10 +177,7 @@ public class RequestTests
         var serialized = _request.Serialize();
         var substring = $"\"speed\":{_request.Speed}}}";
 
-        Console.WriteLine(serialized);
-        Console.WriteLine(substring);
-
-        Assert.IsTrue(serialized.EndsWith(substring));
+        Assert.IsTrue(serialized.EndsWith(substring, StringComparison.Ordinal));
     }
 
     [TestMethod]
@@ -200,18 +186,17 @@ public class RequestTests
         _request.Speed = 0.1f;
 
         var serialized = _request.Serialize();
-        var substring = $"\"speed\":0.1}}";
+        const string substring = $"\"speed\":0.1}}";
 
-        Console.WriteLine(serialized);
-        Console.WriteLine(substring);
-
-        Assert.IsTrue(serialized.EndsWith(substring));
+        Assert.IsTrue(serialized.EndsWith(substring, StringComparison.Ordinal));
     }
 
-    private static IConfiguration CreateConfiguration(IEnumerable<KeyValuePair<string, string?>> initialData)
+    private static Body CreateBody(IConfiguration configuration)
     {
-        return new ConfigurationBuilder()
-            .AddInMemoryCollection(initialData)
-            .Build();
+        return new Body(configuration)
+        {
+            Text = "text",
+            Voice = "voice"
+        };
     }
 }
