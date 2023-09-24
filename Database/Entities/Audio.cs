@@ -32,10 +32,10 @@ public class Audio
     /// <summary>
     /// Перевод, для которого предназначен этот аудиофайл.
     /// </summary>
-    public Translation? Translation { get; set; }
+    public Translation? Translation { get; }
 
     /// <summary>
     /// Голос, который озвучил этот аудиофайл.
     /// </summary>
-    public Voice? Voice { get; set; }
+    public Voice? Voice { get; }
 }

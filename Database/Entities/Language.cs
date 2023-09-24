@@ -35,10 +35,10 @@ public sealed class Language
     /// <summary>
     /// Переводы, выполненные на этом языке.
     /// </summary>
-    public ICollection<Translation>? Translations { get; set; }
+    public ICollection<Translation>? Translations { get; }
 
     /// <summary>
     /// Голоса, говорящие на этом языке.
     /// </summary>
-    public ICollection<Voice>? Voices { get; set; }
+    public ICollection<Voice>? Voices { get; }
 }
