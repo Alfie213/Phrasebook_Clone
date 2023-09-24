@@ -27,9 +27,9 @@ public sealed class Language
     public int Order { get; set; }
 
     /// <summary>
-    /// Определяет, доступен ли язык.
+    /// Определяет, включён ли язык.
     /// </summary>
-    [Comment("Определяет, доступен ли язык.")]
+    [Comment("Определяет, включён ли язык.")]
     public bool Enabled { get; set; }
 
     /// <summary>
