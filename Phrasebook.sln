@@ -5,11 +5,11 @@ VisualStudioVersion = 17.8.34004.107
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database", "Database\Database.csproj", "{A6231479-95B7-4A9C-A81E-7CF519B03BB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zvukogram", "Zvukogram\Zvukogram.csproj", "{D8BA2E88-FF8C-48A2-A3C0-63DA15A2E538}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zvukogram", "Zvukogram\Zvukogram.csproj", "{D8BA2E88-FF8C-48A2-A3C0-63DA15A2E538}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{608742DC-17DF-4532-B917-D256BD87C6D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZvukogramTests", "ZvukogramTests\ZvukogramTests.csproj", "{73500B31-CFE0-4456-8BA2-E95988A5C62C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZvukogramTests", "ZvukogramTests\ZvukogramTests.csproj", "{73500B31-CFE0-4456-8BA2-E95988A5C62C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{64EC3AB4-27E1-44CE-9D4C-DB75DD7F4F75}"
 	ProjectSection(SolutionItems) = preProject
