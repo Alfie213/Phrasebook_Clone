@@ -6,8 +6,8 @@ namespace Database.Entities;
 /// Представляет таблицу с голосами.
 /// </summary>
 [Index(nameof(Name), IsUnique = true)]
-public class Voice
 [Comment("Голоса.")]
+public sealed class Voice
 {
     /// <summary>
     /// ID голоса.

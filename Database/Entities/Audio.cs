@@ -7,7 +7,7 @@ namespace Database.Entities;
 /// </summary>
 [Index(nameof(Source), IsUnique = true)]
 [Comment("Аудиофайлы.")]
-public class Audio
+public sealed class Audio
 {
     /// <summary>
     /// ID аудиофайла.

@@ -4,7 +4,7 @@
 /// Представляет таблицу с настройками.
 /// </summary>
 [Comment("Представляет таблицу с настройками.")]
-public class Setting
+public sealed class Setting
 {
     /// <summary>
     /// Ключ.

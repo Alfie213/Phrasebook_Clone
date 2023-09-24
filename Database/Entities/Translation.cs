@@ -4,7 +4,7 @@
 /// Представляет таблицу с переводами.
 /// </summary>
 [Comment("Переводы.")]
-public class Translation
+public sealed class Translation
 {
     /// <summary>
     /// ID перевода.

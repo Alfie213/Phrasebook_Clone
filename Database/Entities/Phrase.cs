@@ -5,7 +5,7 @@
 /// </summary>
 [Index(nameof(Text), IsUnique = true)]
 [Comment("Фразы.")]
-public class Phrase
+public sealed class Phrase
 {
     /// <summary>
     /// ID фразы.

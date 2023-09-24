@@ -5,7 +5,7 @@
 /// </summary>
 [Index(nameof(Name), IsUnique = true)]
 [Comment("Категории.")]
-public class Category
+public sealed class Category
 {
     /// <summary>
     /// ID категории.
