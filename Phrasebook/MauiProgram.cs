@@ -1,5 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 
+using Phrasebook.Services;
+using Phrasebook.ViewModels;
+using Phrasebook.Views.Account;
+
 namespace Phrasebook;
 public static class MauiProgram
 {
@@ -14,8 +18,14 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
+        builder.Services.AddSingleton<AppShellViewModel>();
+
+        builder.Services.AddSingleton<SignInPage>();
+        builder.Services.AddSingleton<SignInViewModel>();
+
+        builder.Services.AddScoped<ISignInService, SignInService>();
 #if DEBUG
-		builder.Logging.AddDebug();
+        builder.Logging.AddDebug();
 #endif
 
         return builder.Build();
