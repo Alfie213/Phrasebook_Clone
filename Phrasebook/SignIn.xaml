@@ -3,33 +3,61 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:Phrasebook.ViewModels;assembly=Phrasebook"
              x:Class="Phrasebook.SignIn"
-             Title="SignIn">
-	<ContentPage.BindingContext>
-		<viewModels:SignInViewModel/>
-	</ContentPage.BindingContext>
+             Title="SignIn"
+             Shell.NavBarIsVisible="False">
 
-	<VerticalStackLayout
+    <ContentPage.BindingContext>
+        <viewModels:SignInViewModel/>
+    </ContentPage.BindingContext>
+
+    <VerticalStackLayout
         Style="{StaticResource SignInPageWrapper}">
 
-		<Label
+        <Label
             Style="{StaticResource SignInTitle}"
             Text="Войти"/>
 
-		<Entry
+        <Entry
             x:Name="emailEntry"
             Text="{Binding Email}"
             Placeholder="Email" />
 
-		<Entry
+        <Entry
             x:Name="passwordEntry"
             Style="{StaticResource SignInPassword}"
             Text="{Binding Password}"
             Placeholder="Пароль" />
 
-		<Button
+        <StackLayout
+            Orientation="Horizontal">
+            <CheckBox 
+                IsChecked="False"/>
+
+            <Label 
+                Text="Запомнить меня"
+                VerticalTextAlignment="Center"
+                HorizontalTextAlignment="Center"/>
+
+            <Label
+                Text="Забыли пароль"
+                FontAttributes="Bold"
+                HorizontalOptions="EndAndExpand"
+                VerticalTextAlignment="Center"
+                HorizontalTextAlignment="Center"/>
+        </StackLayout>
+
+        <Button
             x:Name="signInButton"
             Style="{StaticResource SignInButton}"
             Text="Войти"
             Command="{Binding SignIn}" />
-	</VerticalStackLayout>
+
+        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Spacing="10">
+            <Label
+                Text="Новый пользователь?"/>
+
+            <Label
+                Text="Регистрация"/>
+        </StackLayout>
+    </VerticalStackLayout>
 </ContentPage>
