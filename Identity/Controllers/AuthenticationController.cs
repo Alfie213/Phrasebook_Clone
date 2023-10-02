@@ -29,7 +29,7 @@ public sealed class AuthenticationController : ControllerBase
         _tokenService = tokenService;
     }
 
-    [HttpGet("/token")]
+    [HttpGet("token")]
     public async Task<IActionResult> GetTokenAsync(string email, string password)
     {
         if (string.IsNullOrEmpty(email))
