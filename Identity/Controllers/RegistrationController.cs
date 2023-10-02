@@ -10,17 +10,17 @@ namespace Identity.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
-public class RegisterController : ControllerBase
+public class RegistrationController : ControllerBase
 {
     private readonly UserManager<IdentityUser> _userManager;
-    private readonly ILogger<RegisterController> _logger;
+    private readonly ILogger<RegistrationController> _logger;
 
     /// <summary>
     /// Создаёт экземпляр класса.
     /// </summary>
     /// <param name="userManager"><see cref="UserManager{TUser}"/>.</param>
     /// <param name="logger">Логгер.</param>
-    public RegisterController(UserManager<IdentityUser> userManager, ILogger<RegisterController> logger)
+    public RegistrationController(UserManager<IdentityUser> userManager, ILogger<RegistrationController> logger)
     {
         _userManager = userManager;
         _logger = logger;
