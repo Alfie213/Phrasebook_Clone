@@ -13,7 +13,7 @@ namespace Identity.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
-public class AuthenticationController : ControllerBase
+public sealed class AuthenticationController : ControllerBase
 {
     private readonly UserManager<IdentityUser> _userManager;
     private readonly TokenService _tokenService;

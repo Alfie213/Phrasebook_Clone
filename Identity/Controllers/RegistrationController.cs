@@ -10,7 +10,7 @@ namespace Identity.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
-public class RegistrationController : ControllerBase
+public sealed class RegistrationController : ControllerBase
 {
     private readonly UserManager<IdentityUser> _userManager;
     private readonly ILogger<RegistrationController> _logger;
