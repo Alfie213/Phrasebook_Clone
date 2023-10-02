@@ -1,5 +1,8 @@
 using Database;
 
+using Identity;
+using Identity.Services;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,6 +26,9 @@ builder.Services.AddDbContext<Context>(options =>
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<Context>();
+
+builder.Services.AddSingleton<JwtOptions>();
+builder.Services.AddSingleton<TokenService>();
 
 var app = builder.Build();
 
