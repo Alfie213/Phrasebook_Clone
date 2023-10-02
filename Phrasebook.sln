@@ -16,7 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решен
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity", "Identity\Identity.csproj", "{2281AF2A-8D31-4323-B9C6-CE8F5E00D708}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity", "Identity\Identity.csproj", "{2281AF2A-8D31-4323-B9C6-CE8F5E00D708}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -10,6 +10,7 @@ namespace Identity.Services;
 /// </summary>
 public sealed class TokenService
 {
+    private readonly JwtSecurityTokenHandler _tokenHandler = new();
     private readonly JwtOptions _options;
 
     /// <summary>
@@ -37,6 +38,17 @@ public sealed class TokenService
     }
 
     /// <summary>
+    /// Возвращает список из <see cref="Claim"/>, связанных с <paramref name="token"/>.
+    /// </summary>
+    /// <param name="token">Токен.</param>
+    /// <returns>Список из <see cref="Claim"/>, связанных с <paramref name="token"/>.</returns>
+    public IEnumerable<Claim> ReadToken(string token)
+    {
+        var jwtSecurityToken = _tokenHandler.ReadJwtToken(token);
+        return jwtSecurityToken.Claims;
+    }
+
+    /// <summary>
     /// Проверяет, является ли токен действительным.
     /// </summary>
     /// <param name="token">Токен</param>
@@ -51,11 +63,13 @@ public sealed class TokenService
         var validationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
+            ValidateLifetime = true,
             IssuerSigningKey = _options.Key,
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidIssuer = _options.Issuer,
-            ValidAudience = _options.Audience
+            ValidAudience = _options.Audience,
+            RequireExpirationTime = true,
         };
 
         var tokenHandler = new JwtSecurityTokenHandler();
