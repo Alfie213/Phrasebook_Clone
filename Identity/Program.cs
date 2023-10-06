@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
-using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -63,7 +62,6 @@ builder.Services.AddAuthorization(options =>
 {
     options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
     .RequireAuthenticatedUser()
-    .RequireClaim(JwtRegisteredClaimNames.Sub)
     .Build();
 });
 
