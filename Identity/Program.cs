@@ -1,4 +1,7 @@
+using Core.Interfaces;
+
 using Database;
+using Database.Services;
 
 using Identity;
 using Identity.Services;
@@ -57,6 +60,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<Context>();
 
 builder.Services.AddSingleton<TokenService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddAuthorization(options =>
 {
