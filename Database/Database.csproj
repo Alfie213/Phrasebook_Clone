@@ -30,6 +30,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Microsoft.EntityFrameworkCore" />
     <Using Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
