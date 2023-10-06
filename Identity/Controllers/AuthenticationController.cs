@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 
 namespace Identity.Controllers;
 
@@ -46,13 +45,7 @@ public sealed class AuthenticationController : ControllerBase
 
         if (user is not null && await _userManager.CheckPasswordAsync(user, password))
         {
-            var claims = new Claim[]
-            {
-                new (JwtRegisteredClaimNames.Sub, user.Id),
-                new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
-
-            var token = _tokenService.CreateToken(claims);
+            var token = _tokenService.CreateToken(user.Id);
 
             return Ok(new JwtSecurityTokenHandler().WriteToken(token));
         }

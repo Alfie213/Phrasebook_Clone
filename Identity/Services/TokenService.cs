@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.Extensions.Primitives;
+using Microsoft.IdentityModel.Tokens;
 
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -10,71 +11,57 @@ namespace Identity.Services;
 /// </summary>
 public sealed class TokenService
 {
-    private readonly JwtSecurityTokenHandler _tokenHandler = new();
-    private readonly JwtOptions _options;
+	private readonly JwtSecurityTokenHandler _tokenHandler = new();
+	private readonly JwtOptions _options;
 
-    /// <summary>
-    /// Создаёт экземпляр класса.
-    /// </summary>
-    /// <param name="options">Настройки для</param>
-    public TokenService(JwtOptions options)
-    {
-        _options = options;
-    }
+	/// <summary>
+	/// Создаёт экземпляр класса.
+	/// </summary>
+	/// <param name="options">Настройки для</param>
+	public TokenService(JwtOptions options)
+	{
+		_options = options;
+	}
 
-    /// <summary>
-    /// Создаёт токен.
-    /// </summary>
-    /// <param name="claims"></param>
-    /// <returns>Токен.</returns>
-    public JwtSecurityToken CreateToken(IEnumerable<Claim> claims)
-    {
-        return new JwtSecurityToken(
-            issuer: _options.Issuer,
-            audience: _options.Audience,
-            expires: DateTime.Now.AddHours(1),
-            claims: claims,
-            signingCredentials: new SigningCredentials(_options.Key, SecurityAlgorithms.HmacSha256));
-    }
+	/// <summary>
+	/// Создаёт токен.
+	/// </summary>
+	/// <param name="claims"></param>
+	/// <returns>Токен.</returns>
+	public JwtSecurityToken CreateToken(string userId)
+	{
+		var claims = new Claim[]
+		{
+			new (JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+			new (JwtRegisteredClaimNames.Sub, userId)
+		};
 
-    /// <summary>
-    /// Возвращает список из <see cref="Claim"/>, связанных с <paramref name="token"/>.
-    /// </summary>
-    /// <param name="token">Токен.</param>
-    /// <returns>Список из <see cref="Claim"/>, связанных с <paramref name="token"/>.</returns>
-    public IEnumerable<Claim> ReadToken(string token)
-    {
-        var jwtSecurityToken = _tokenHandler.ReadJwtToken(token);
-        return jwtSecurityToken.Claims;
-    }
+		return new JwtSecurityToken(
+			issuer: _options.Issuer,
+			audience: _options.Audience,
+			expires: DateTime.Now.AddHours(1),
+			claims: claims,
+			signingCredentials: new SigningCredentials(_options.Key, SecurityAlgorithms.HmacSha256));
+	}
 
-    /// <summary>
-    /// Проверяет, является ли токен действительным.
-    /// </summary>
-    /// <param name="token">Токен</param>
-    /// <returns><see langword="true"/>, если токен действителен, иначе - <see langword="false"/>.</returns>
-    public async Task<bool> IsTokenValidAsync(string token)
-    {
-        if (string.IsNullOrWhiteSpace(token))
-        {
-            return false;
-        }
+	public static string GetTokenFromAuthorizationHeader(StringValues authorization)
+	{
+		const string bearerPrefix = "Bearer ";
 
-        var validationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            ValidateLifetime = true,
-            IssuerSigningKey = _options.Key,
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidIssuer = _options.Issuer,
-            ValidAudience = _options.Audience,
-            RequireExpirationTime = true,
-        };
+		var value = authorization.First(header => header is not null
+			&& header.StartsWith(bearerPrefix, StringComparison.InvariantCultureIgnoreCase))!;
 
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var validationResult = await tokenHandler.ValidateTokenAsync(token, validationParameters);
+		return value[bearerPrefix.Length..];
+	}
 
-        return validationResult.IsValid;
-    }
+	/// <summary>
+	/// Возвращает ID пользователя.
+	/// </summary>
+	/// <param name="token">Токен</param>
+	/// <returns>ID пользователя.</returns>
+	public string GetUserId(string token)
+	{
+		var jwtSecurityToken = _tokenHandler.ReadJwtToken(token);
+		return jwtSecurityToken.Claims.First(claim => claim.Type == JwtRegisteredClaimNames.Sub).Value;
+	}
 }
