@@ -20,6 +20,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity", "Identity\Identi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{BC5C9ABE-940D-4546-8C91-791A838E14FF}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Phrasebook", "Phrasebook\Phrasebook.csproj", "{4DB9301E-EE2F-424B-A8A8-739975F23242}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,12 @@ Global
 		{BC5C9ABE-940D-4546-8C91-791A838E14FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC5C9ABE-940D-4546-8C91-791A838E14FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC5C9ABE-940D-4546-8C91-791A838E14FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DB9301E-EE2F-424B-A8A8-739975F23242}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DB9301E-EE2F-424B-A8A8-739975F23242}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DB9301E-EE2F-424B-A8A8-739975F23242}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{4DB9301E-EE2F-424B-A8A8-739975F23242}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DB9301E-EE2F-424B-A8A8-739975F23242}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DB9301E-EE2F-424B-A8A8-739975F23242}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

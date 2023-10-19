@@ -1,16 +1,16 @@
 ﻿using Phrasebook.ViewModels;
-using Phrasebook.Views;
+using Phrasebook.Views.Account;
 
 namespace Phrasebook;
 
 public partial class AppShell : Shell
 {
-    public AppShell(AppShellViewModel viewModel)
-    {
-        InitializeComponent();
+	public AppShell(AppShellViewModel viewModel)
+	{
+		InitializeComponent();
 
-        BindingContext = viewModel;
+		BindingContext = viewModel;
 
-        Routing.RegisterRoute(nameof(LearnPage), typeof(LearnPage));
-    }
+		Routing.RegisterRoute(nameof(RegistrationPage), typeof(RegistrationPage));
+	}
 }

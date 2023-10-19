@@ -1,19 +1,38 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 
+
 using Phrasebook.Views.Account;
+
+using System.Net;
 
 namespace Phrasebook.ViewModels;
 
+/// <summary>
+/// Модель отображения для <see cref="AppShell"/>.
+/// </summary>
 public sealed partial class AppShellViewModel : BaseViewModel
 {
-    [RelayCommand]
-    private async Task SingOutAsync()
-    {
-        if (Preferences.ContainsKey(nameof(App.User)))
-        {
-            Preferences.Remove(nameof(App.User));
-        }
+	private readonly HttpClient _client;
 
-        await Shell.Current.GoToAsync($"{nameof(SignInPage)}");
-    }
+	/// <summary>
+	/// Создаёт экземпляр класса.
+	/// </summary>
+	/// <param name="client">HTTP клиент.</param>
+	public AppShellViewModel(HttpClient client)
+	{
+		_client = client;
+	}
+
+	[RelayCommand]
+	private async Task SignOutAsync()
+	{
+		_client.DefaultRequestHeaders.Remove(HttpRequestHeader.Authorization.ToString());
+
+		if (Preferences.ContainsKey(nameof(App.Token)))
+		{
+			Preferences.Remove(nameof(App.Token));
+		}
+
+		await Shell.Current.GoToAsync($"//{nameof(SignInPage)}");
+	}
 }

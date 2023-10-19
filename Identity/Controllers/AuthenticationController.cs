@@ -33,12 +33,12 @@ public sealed class AuthenticationController : ControllerBase
     {
         if (string.IsNullOrEmpty(email))
         {
-            return BadRequest($"{email} не может быть пустым.");
+            return BadRequest($"{email} не может быть пустым");
         }
 
         if (string.IsNullOrEmpty(password))
         {
-            return BadRequest($"{password} не может быть пустым.");
+            return BadRequest($"{password} не может быть пустым");
         }
 
         var user = await _userManager.FindByEmailAsync(email);
@@ -50,6 +50,6 @@ public sealed class AuthenticationController : ControllerBase
             return Ok(new JwtSecurityTokenHandler().WriteToken(token));
         }
 
-        return BadRequest("Введены неверные учетные данные.");
+        return BadRequest("Пользователя с такими учётными данными не существует");
     }
 }

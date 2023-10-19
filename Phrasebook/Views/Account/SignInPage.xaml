@@ -2,14 +2,14 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Phrasebook.Views.Account.SignInPage"
-             Title="SignIn"
-             >
+            Shell.FlyoutBehavior="Disabled"
+             Title="SignIn">
 
     <VerticalStackLayout
-        Style="{StaticResource SignInPageWrapper}">
+        Style="{StaticResource AccountWrapper}">
 
         <Label
-            Style="{StaticResource SignInTitle}"
+            Style="{StaticResource AccountTitle}"
             Text="Войти"/>
 
         <Entry
@@ -22,9 +22,9 @@
             Style="{StaticResource SignInPassword}"
             Text="{Binding Password}"
             Placeholder="Пароль" />
-
-        <StackLayout
-            Orientation="Horizontal">
+        
+        <StackLayout Orientation="Horizontal">
+            
             <CheckBox 
                 IsChecked="False"/>
 
@@ -41,18 +41,29 @@
                 HorizontalTextAlignment="Center"/>
         </StackLayout>
 
-        <Button
-            x:Name="signInButton"
-            Style="{StaticResource SignInButton}"
-            Text="Войти"
-            Command="{Binding SignInCommand}" />
+        <Button x:Name="signInButton"
+                Style="{StaticResource SignInButton}"
+                Text="Войти"
+                Command="{Binding SignInCommand}" />
 
-        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Spacing="10">
+        <ActivityIndicator x:Name="spinner"
+                           IsVisible="{Binding SignInCommand.IsRunning, Mode=OneWay}"
+                           PropertyChanged="OnSpinnerPropertyChanged"
+                           IsRunning="True" />
+
+        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Spacing="10">
             <Label
-                Text="Новый пользователь?"/>
+                Text="Новый пользователь?"
+                TextColor="Gray"/>
 
             <Label
-                Text="Регистрация"/>
-        </StackLayout>
+                Text="Регистрация">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer 
+                        Command="{Binding GoToRegistrationCommand}"/>
+                </Label.GestureRecognizers>
+            </Label>
+        </HorizontalStackLayout>
     </VerticalStackLayout>
 </ContentPage>
+    

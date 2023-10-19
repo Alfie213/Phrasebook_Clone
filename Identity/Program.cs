@@ -20,27 +20,27 @@ var jwtOptions = new JwtOptions(builder.Configuration);
 builder.Services.AddSingleton(jwtOptions);
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        if (builder.Environment.IsDevelopment())
-        {
-            options.RequireHttpsMetadata = false;
-        }
+	.AddJwtBearer(options =>
+	{
+		if (builder.Environment.IsDevelopment())
+		{
+			options.RequireHttpsMetadata = false;
+		}
 
-        options.ClaimsIssuer = jwtOptions.Issuer;
-        options.Audience = jwtOptions.Audience;
+		options.ClaimsIssuer = jwtOptions.Issuer;
+		options.Audience = jwtOptions.Audience;
 
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            ValidateLifetime = true,
-            IssuerSigningKey = jwtOptions.Key,
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidIssuer = jwtOptions.Issuer,
-            ValidAudience = jwtOptions.Audience,
-        };
-    });
+		options.TokenValidationParameters = new TokenValidationParameters
+		{
+			ValidateIssuerSigningKey = true,
+			ValidateLifetime = true,
+			IssuerSigningKey = jwtOptions.Key,
+			ValidateIssuer = true,
+			ValidateAudience = true,
+			ValidIssuer = jwtOptions.Issuer,
+			ValidAudience = jwtOptions.Audience,
+		};
+	});
 
 builder.Services.AddControllers();
 
@@ -50,31 +50,36 @@ builder.Services.AddSwaggerGen();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<Context>(options =>
 {
-    options.UseSqlServer(connectionString, options =>
-    {
-        options.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name);
-    });
+	options.UseSqlServer(connectionString, options =>
+	{
+		options.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name);
+	});
 });
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<Context>();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+{
+	options.Password.RequireNonAlphanumeric = false;
+	options.Password.RequireDigit = false;
+	options.Password.RequireUppercase = false;
+})
+	.AddEntityFrameworkStores<Context>();
 
 builder.Services.AddSingleton<TokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddAuthorization(options =>
 {
-    options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
-    .RequireAuthenticatedUser()
-    .Build();
+	options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
+	.RequireAuthenticatedUser()
+	.Build();
 });
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+	app.UseSwagger();
+	app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();

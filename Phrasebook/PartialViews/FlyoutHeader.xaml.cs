@@ -6,10 +6,10 @@ public partial class FlyoutHeader : ContentView
 	{
 		InitializeComponent();
 
-		if (App.User is not null)
+		if (App.UserModel is not null)
 		{
-			username.Text = $"Signed in as {App.User.Username}";
-			email.Text = App.User.Username;
+			username.Text = $"Signed in as {App.UserModel.Email}";
+			email.Text = App.UserModel.Email;
 		}
 	}
 }

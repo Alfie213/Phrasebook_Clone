@@ -1,12 +1,13 @@
-﻿using Phrasebook.Models;
+﻿using Core.Models;
+
 using Phrasebook.ViewModels;
-using Phrasebook.Views;
 
 namespace Phrasebook;
 
 public partial class App : Application
 {
-    internal static User User { get; set; }
+    internal static string Token { get; set; }
+    internal static UserModel UserModel { get; set; }
 
     public App(AppShellViewModel appShellViewModel)
     {

@@ -1,0 +1,69 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Phrasebook.Views.Account.RegistrationPage"
+             Shell.FlyoutBehavior="Disabled"
+             Title="Registration">
+
+    <VerticalStackLayout Style="{StaticResource AccountWrapper}">
+
+        <Label Style="{StaticResource AccountTitle}"
+               Text="Новый аккаунт"/>
+
+        <VerticalStackLayout>
+            
+            <Entry x:Name="emailEntry"                
+                   Text="{Binding Email}"                
+                   Placeholder="Email"                 
+                   />
+
+            <Label Text="Понадобится, если вдруг забудете пароль"
+                   TextColor="Gray"
+                   FontSize="12"
+                   Margin="0,0,0,10"
+                   VerticalTextAlignment="Center"
+                   HorizontalTextAlignment="Center"/>
+            
+        </VerticalStackLayout>
+
+        <VerticalStackLayout>
+
+            <Entry x:Name="passwordEntry"
+               Style="{StaticResource SignInPassword}"
+               Text="{Binding Password}"
+               Placeholder="Пароль" />
+
+            <Label Text="Минимум 6 символов"
+                   TextColor="Gray"
+                   FontSize="12"
+                   Margin="0,0,0,10"
+                   VerticalTextAlignment="Center"
+                   HorizontalTextAlignment="Center"/>
+
+        </VerticalStackLayout>
+
+        <Entry x:Name="submitPasswordEntry"            
+               Style="{StaticResource SignInPassword}"            
+               Text="{Binding ConfirmedPassword}"            
+               Placeholder="Повторите пароль" />
+
+        <Button x:Name="signInButton"
+                Style="{StaticResource SignInButton}"
+                Text="Войти"
+                Command="{Binding SignUpCommand}" />
+
+        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Spacing="10">
+            <Label
+                Text="Уже зарегистрированы?"
+                TextColor="Gray" />
+
+            <Label
+                Text="Войти">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer 
+                        Command="{Binding BackToSignInCommand}"/>
+                </Label.GestureRecognizers>
+            </Label>
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>
+    
