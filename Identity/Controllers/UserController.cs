@@ -12,8 +12,8 @@ namespace Identity.Controllers;
 [Route("api/[controller]")]
 public sealed class UserController : ControllerBase
 {
-    private readonly TokenService _tokenService;
-    private readonly IUserService _userService;
+	private readonly TokenService _tokenService;
+	private readonly IUserService _userService;
 
 	public UserController(TokenService tokenService, IUserService userService)
 	{
@@ -22,14 +22,14 @@ public sealed class UserController : ControllerBase
 	}
 
 	[HttpGet]
-    public async Task<IActionResult> GetInformationAsync()
-    {
-        var authorization = Request.Headers.Authorization;
-        var token = TokenService.GetTokenFromAuthorizationHeader(authorization);
+	public async Task<IActionResult> GetInformationAsync()
+	{
+		var authorization = Request.Headers.Authorization;
+		var token = TokenService.GetTokenFromAuthorizationHeader(authorization);
 
-        var userId = _tokenService.GetUserId(token);
-        var user = await _userService.GetUserModelAsync(userId);
+		var userId = _tokenService.GetUserId(token);
+		var user = await _userService.GetUserModelAsync(userId);
 
-        return Ok(user);
-    }
+		return Ok(user);
+	}
 }

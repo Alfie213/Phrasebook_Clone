@@ -39,6 +39,11 @@ public sealed class RegistrationController : ControllerBase
 	[HttpPost]
 	public async Task<IActionResult> RegisterAsync([FromBody] RegistrationModel registrationModel)
 	{
+		if (registrationModel is null)
+		{
+			return BadRequest("Отсутствуют данные для регистрации");
+		}
+
 		var user = new IdentityUser
 		{
 			UserName = registrationModel.Email,

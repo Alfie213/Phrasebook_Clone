@@ -11,8 +11,6 @@ public partial class SignInPage : ContentPage
 		InitializeComponent();
 
 		BindingContext = viewModel;
-
-		spinner.HeightRequest = signInButton.Height;
 	}
 
 	private void OnSpinnerPropertyChanged(object sender, PropertyChangedEventArgs e)

@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Phrasebook.PartialViews.FlyoutHeader">
     <StackLayout>
-        <Label x:Name="username"/>
-        <Label x:Name="email"/>
+        <Label Text="{Binding Email}"/>
+        <Label Text="{Binding Username, StringFormat='Signed in as {0}'}"/>
     </StackLayout>
 </ContentView>

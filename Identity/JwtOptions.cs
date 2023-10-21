@@ -9,36 +9,38 @@ namespace Identity;
 /// </summary>
 public class JwtOptions
 {
-    /// <summary>
-    /// Создаёт экземпляр класса.
-    /// </summary>
-    /// <param name="configuration">Конфигурация.</param>
-    public JwtOptions(IConfiguration configuration)
-    {
-        Issuer = GetConfigurationKey(configuration, "Jwt:Issuer");
-        Audience = GetConfigurationKey(configuration, "Jwt:Audience");
+	/// <summary>
+	/// Создаёт экземпляр класса.
+	/// </summary>
+	/// <param name="configuration">Конфигурация.</param>
+	public JwtOptions(IConfiguration configuration)
+	{
+		ArgumentNullException.ThrowIfNull(configuration, nameof(configuration));
 
-        var key = GetConfigurationKey(configuration, "Jwt:Key");
-        Key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
-    }
+		Issuer = GetConfigurationKey(configuration, "Jwt:Issuer");
+		Audience = GetConfigurationKey(configuration, "Jwt:Audience");
 
-    /// <summary>
-    /// Источник, создавший токен.
-    /// </summary>
-    public string Issuer { get; }
+		var key = GetConfigurationKey(configuration, "Jwt:Key");
+		Key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
+	}
 
-    /// <summary>
-    /// Получатель, для которого предназначен токен.
-    /// </summary>
-    public string Audience { get; }
+	/// <summary>
+	/// Источник, создавший токен.
+	/// </summary>
+	public string Issuer { get; }
 
-    /// <summary>
-    /// Ключ для шифрования и подписи.
-    /// </summary>
-    public SymmetricSecurityKey Key { get; }
+	/// <summary>
+	/// Получатель, для которого предназначен токен.
+	/// </summary>
+	public string Audience { get; }
 
-    private static string GetConfigurationKey(IConfiguration configuration, string key)
-    {
-        return configuration[key] ?? throw new KeyNotFoundException(key);
-    }
+	/// <summary>
+	/// Ключ для шифрования и подписи.
+	/// </summary>
+	public SymmetricSecurityKey Key { get; }
+
+	private static string GetConfigurationKey(IConfiguration configuration, string key)
+	{
+		return configuration[key] ?? throw new KeyNotFoundException(key);
+	}
 }

@@ -47,7 +47,7 @@
                 Command="{Binding SignInCommand}" />
 
         <ActivityIndicator x:Name="spinner"
-                           IsVisible="{Binding SignInCommand.IsRunning, Mode=OneWay}"
+                           IsVisible="{Binding SignInCommand.IsRunning}"
                            PropertyChanged="OnSpinnerPropertyChanged"
                            IsRunning="True" />
 

@@ -3,7 +3,7 @@
 namespace Core.Models;
 
 /// <summary>
-/// Модель для регистрации пользователя.
+/// Модель с данными для регистрации пользователя.
 /// </summary>
 [Serializable]
 public sealed class RegistrationModel

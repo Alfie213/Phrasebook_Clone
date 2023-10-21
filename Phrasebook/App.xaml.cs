@@ -2,17 +2,28 @@
 
 using Phrasebook.ViewModels;
 
+using System.Text.Json;
+
 namespace Phrasebook;
 
 public partial class App : Application
 {
-    internal static string Token { get; set; }
-    internal static UserModel UserModel { get; set; }
+	private static UserModel _userModel;
 
-    public App(AppShellViewModel appShellViewModel)
-    {
-        InitializeComponent();
+	internal static UserModel UserModel
+	{
+		get => _userModel;
+		set
+		{
+			_userModel = value;
+			Preferences.Set(nameof(UserModel), JsonSerializer.Serialize(value));
+		}
+	}
 
-        MainPage = new AppShell(appShellViewModel);
-    }
+	public App(AppShellViewModel appShellViewModel)
+	{
+		InitializeComponent();
+
+		MainPage = new AppShell(appShellViewModel);
+	}
 }

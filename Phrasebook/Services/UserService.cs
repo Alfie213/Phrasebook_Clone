@@ -1,5 +1,7 @@
 ﻿using Core.Models;
 
+using Phrasebook.DTO;
+
 using System.Net.Http.Json;
 
 namespace Phrasebook.Services;
@@ -19,8 +21,18 @@ public sealed class UserService : IUserService
 	}
 
 	/// <inheritdoc/>
-	public async Task<UserModel> GetUserModelAsync()
+	public async Task<Response<UserModel>> GetUserModelAsync()
 	{
-		return await _client.GetFromJsonAsync<UserModel>("user");
+		var endpoint = new Uri("user", UriKind.Relative);
+
+		try
+		{
+			var user = await _client.GetFromJsonAsync<UserModel>(endpoint);
+			return new Response<UserModel>(true, user);
+		}
+		catch (HttpRequestException)
+		{
+			return new Response<UserModel>("Не удалось получить информацию о пользователе");
+		}
 	}
 }

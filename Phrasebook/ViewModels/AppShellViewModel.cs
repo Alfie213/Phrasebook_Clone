@@ -1,5 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
-
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 using Phrasebook.Views.Account;
 
@@ -10,7 +10,7 @@ namespace Phrasebook.ViewModels;
 /// <summary>
 /// Модель отображения для <see cref="AppShell"/>.
 /// </summary>
-public sealed partial class AppShellViewModel : BaseViewModel
+public sealed partial class AppShellViewModel : ObservableObject
 {
 	private readonly HttpClient _client;
 
@@ -27,11 +27,6 @@ public sealed partial class AppShellViewModel : BaseViewModel
 	private async Task SignOutAsync()
 	{
 		_client.DefaultRequestHeaders.Remove(HttpRequestHeader.Authorization.ToString());
-
-		if (Preferences.ContainsKey(nameof(App.Token)))
-		{
-			Preferences.Remove(nameof(App.Token));
-		}
 
 		await Shell.Current.GoToAsync($"//{nameof(SignInPage)}");
 	}

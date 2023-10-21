@@ -1,8 +1,8 @@
-﻿using Phrasebook.DTO;
+﻿using Core.Models;
 
-using System.Text;
+using Phrasebook.DTO;
 
-using System.Text.Json;
+using System.Net.Http.Json;
 
 namespace Phrasebook.Services;
 
@@ -28,21 +28,24 @@ public sealed class RegistrationService : IRegistrationService
 			return new Response("Нет соединения с Интернетом");
 		}
 
-		var content = new { email, password };
-		//var response = await _client.PostAsJsonAsync("registration", content);
+		var endpoint = new Uri("registration", UriKind.Relative);
+		var content = new RegistrationModel(email, password);
 
-
-		var json = JsonSerializer.Serialize(content);
-		using var content2 = new StringContent(json, Encoding.UTF8, "application/json");
-
-		var response = await _client.PostAsync("registration", content2);
-
-		if (!response.IsSuccessStatusCode)
+		try
 		{
-			var errors = await response.Content.ReadAsStringAsync();
-			return new Response(errors);
-		}
+			var response = await _client.PostAsJsonAsync(endpoint, content);
 
-		return new Response(true);
+			if (!response.IsSuccessStatusCode)
+			{
+				var errors = await response.Content.ReadAsStringAsync();
+				return new Response(errors);
+			}
+
+			return new Response(true);
+		}
+		catch (HttpRequestException)
+		{
+			return new Response("Не удалось отправить запрос");
+		}
 	}
 }

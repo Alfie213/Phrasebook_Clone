@@ -17,16 +17,23 @@ public sealed class AuthenticationService : IAuthenticationService
 	}
 
 	/// <inheritdoc />
-	public async Task<Response> AuthenticateAsync(string email, string password)
+	public async Task<Response<string>> AuthenticateAsync(string email, string password)
 	{
 		if (Connectivity.NetworkAccess != NetworkAccess.Internet)
 		{
-			return new Response("Нет соединения с Интернетом");
+			return new Response<string>("Нет соединения с Интернетом");
 		}
 
-		var endpoint = new Uri($"authentication/token?email={email}&password={password}", UriKind.Relative);
-		var response = await _client.GetAsync(endpoint);
+		try
+		{
+			var endpoint = new Uri($"authentication/token?email={email}&password={password}", UriKind.Relative);
+			var response = await _client.GetAsync(endpoint);
 
-		return new Response(response.IsSuccessStatusCode, await response.Content.ReadAsStringAsync());
+			return new Response<string>(response.IsSuccessStatusCode, body: await response.Content.ReadAsStringAsync());
+		}
+		catch (HttpRequestException)
+		{
+			return new Response<string>("Не удалось отправить запрос");
+		}
 	}
 }

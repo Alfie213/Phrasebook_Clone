@@ -16,13 +16,15 @@ public class UserService : IUserService
 	/// <param name="context">Контекст базы данных.</param>
 	public UserService(Context context)
 	{
+		ArgumentNullException.ThrowIfNull(context, nameof(context));
+
 		_users = context.Users;
 	}
 
 	/// <inheritdoc/>
 	public async Task<UserModel?> GetUserModelAsync(string userId)
 	{
-        return await _users.Where(user => user.Id == userId)
+		return await _users.Where(user => user.Id == userId)
 			.Select(user => new UserModel
 			{
 				// TODO: Исправить базовую реализацию почту, чтобы она была обязательной.

@@ -1,15 +1,14 @@
+using Phrasebook.ViewModels.PartialViews;
+
 namespace Phrasebook.PartialViews;
 
 public partial class FlyoutHeader : ContentView
 {
-	public FlyoutHeader()
+	public FlyoutHeader(FlyoutHeaderViewModel viewModel)
 	{
 		InitializeComponent();
 
-		if (App.UserModel is not null)
-		{
-			username.Text = $"Signed in as {App.UserModel.Email}";
-			email.Text = App.UserModel.Email;
-		}
+		BindingContext = viewModel;
+		Loaded += (sender, e) => viewModel.DisplayUserInformationCommand.Execute(sender);
 	}
 }

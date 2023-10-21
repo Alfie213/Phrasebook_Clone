@@ -1,24 +1,22 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-using Core.Models;
-
 using Phrasebook.PartialViews;
 using Phrasebook.Services;
 using Phrasebook.Views;
 using Phrasebook.Views.Account;
 
 using System.Net.Http.Headers;
-using System.Text.Json;
 
 namespace Phrasebook.ViewModels;
 
-public sealed partial class SignInViewModel : BaseViewModel
+public sealed partial class SignInViewModel : ObservableObject
 {
-	private readonly HttpClient _client;
-	private readonly IAuthenticationService _authenticationService;
-	private readonly IUserService _userService;
 	private readonly AppShellViewModel _appShellViewModel;
+	private readonly IAuthenticationService _authenticationService;
+	private readonly FlyoutHeader _flyoutHeader;
+	private readonly HttpClient _client;
+	private readonly IUserService _userService;
 
 	[ObservableProperty]
 	[NotifyCanExecuteChangedFor(nameof(SignInCommand))]
@@ -28,12 +26,17 @@ public sealed partial class SignInViewModel : BaseViewModel
 	[NotifyCanExecuteChangedFor(nameof(SignInCommand))]
 	private string _password = "Qte_653168";
 
-	public SignInViewModel(HttpClient client, IAuthenticationService service, IUserService userService, AppShellViewModel appShellViewModel)
+	public SignInViewModel(AppShellViewModel appShellViewModel,
+		IAuthenticationService service,
+		FlyoutHeader flyoutHeader,
+		HttpClient client,
+		IUserService userService)
 	{
-		_client = client;
-		_authenticationService = service;
-		_userService = userService;
 		_appShellViewModel = appShellViewModel;
+		_authenticationService = service;
+		_flyoutHeader = flyoutHeader;
+		_client = client;
+		_userService = userService;
 	}
 
 	[RelayCommand(CanExecute = nameof(CanSignIn))]
@@ -47,15 +50,9 @@ public sealed partial class SignInViewModel : BaseViewModel
 			return;
 		}
 
-		var token = response.Message;
-		_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+		_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", response.Body);
 
-		var user = await _userService.GetUserModelAsync();
-
-		UpdatePreferences(token);
-		UpdatePreferences(user);
-
-		Shell.Current.FlyoutHeader = new FlyoutHeader();
+		Shell.Current.FlyoutHeader = _flyoutHeader;
 		await Shell.Current.GoToAsync($"//{nameof(LearnPage)}");
 	}
 
@@ -63,28 +60,6 @@ public sealed partial class SignInViewModel : BaseViewModel
 	private async Task GoToRegistrationAsync()
 	{
 		await Shell.Current.GoToAsync(nameof(RegistrationPage));
-	}
-
-	private static void UpdatePreferences(string token)
-	{
-		if (Preferences.ContainsKey(nameof(App.Token)))
-		{
-			Preferences.Remove(nameof(App.Token));
-		}
-
-		Preferences.Set(nameof(App.Token), token);
-		App.Token = token;
-	}
-
-	private static void UpdatePreferences(UserModel userModel)
-	{
-		if (Preferences.ContainsKey(nameof(App.UserModel)))
-		{
-			Preferences.Remove(nameof(App.UserModel));
-		}
-
-		Preferences.Set(nameof(App.UserModel), JsonSerializer.Serialize(userModel));
-		App.UserModel = userModel;
 	}
 
 	private bool CanSignIn()

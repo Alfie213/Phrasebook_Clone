@@ -5,13 +5,13 @@
 /// </summary>
 public enum Gender
 {
-    /// <summary>
-    /// Мужской.
-    /// </summary>
-    Male,
+	/// <summary>
+	/// Мужской.
+	/// </summary>
+	Male,
 
-    /// <summary>
-    /// Женский.
-    /// </summary>
-    Female
+	/// <summary>
+	/// Женский.
+	/// </summary>
+	Female
 }

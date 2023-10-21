@@ -13,5 +13,5 @@ public interface IAuthenticationService
     /// <param name="email">Почта.</param>
     /// <param name="password">Пароль.</param>
     /// <returns>Возвращает токен для использования в дальнейших запросах.</returns>
-    Task<Response> AuthenticateAsync(string email, string password);
+    Task<Response<string>> AuthenticateAsync(string email, string password);
 }

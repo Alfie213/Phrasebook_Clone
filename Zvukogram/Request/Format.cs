@@ -5,18 +5,18 @@
 /// </summary>
 public enum Format
 {
-    /// <summary>
-    /// MP3.
-    /// </summary>
-    Mp3,
+	/// <summary>
+	/// MP3.
+	/// </summary>
+	Mp3,
 
-    /// <summary>
-    /// WAV.
-    /// </summary>
-    Wav,
+	/// <summary>
+	/// WAV.
+	/// </summary>
+	Wav,
 
-    /// <summary>
-    /// OGG.
-    /// </summary>
-    Ogg
+	/// <summary>
+	/// OGG.
+	/// </summary>
+	Ogg
 }

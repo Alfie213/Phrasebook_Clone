@@ -3,11 +3,9 @@ using CommunityToolkit.Mvvm.Input;
 
 using Phrasebook.Services;
 
-using System.Text.Json;
-
 namespace Phrasebook.ViewModels.Account;
 
-public sealed partial class RegistrationViewModel : BaseViewModel
+public sealed partial class RegistrationViewModel : ObservableObject
 {
 	private readonly IRegistrationService _registrationService;
 	private readonly SignInViewModel _signInViewModel;

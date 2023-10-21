@@ -1,5 +1,7 @@
 ﻿using Core.Models;
 
+using Phrasebook.DTO;
+
 namespace Phrasebook.Services;
 
 /// <summary>
@@ -11,5 +13,5 @@ public interface IUserService
 	/// Возвращает информацию о пользователе.
 	/// </summary>
 	/// <returns>Возвращает информацию о пользователе.</returns>
-	Task<UserModel> GetUserModelAsync();
+	Task<Response<UserModel>> GetUserModelAsync();
 }

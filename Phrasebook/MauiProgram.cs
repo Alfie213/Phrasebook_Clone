@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 
+using Phrasebook.PartialViews;
 using Phrasebook.Services;
 using Phrasebook.ViewModels;
 using Phrasebook.ViewModels.Account;
+using Phrasebook.ViewModels.PartialViews;
 using Phrasebook.Views.Account;
 
 namespace Phrasebook;
@@ -30,6 +32,9 @@ public static class MauiProgram
 
 		builder.Services.AddSingleton<RegistrationViewModel>();
 		builder.Services.AddSingleton<RegistrationPage>();
+
+		builder.Services.AddSingleton<FlyoutHeaderViewModel>();
+		builder.Services.AddSingleton<FlyoutHeader>();
 
 		builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 		builder.Services.AddScoped<IRegistrationService, RegistrationService>();

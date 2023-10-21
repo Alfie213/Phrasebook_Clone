@@ -48,13 +48,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<Context>(options =>
-{
-	options.UseSqlServer(connectionString, options =>
-	{
-		options.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name);
-	});
-});
+builder.Services.AddDbContext<Context>(options
+	=> options.UseSqlServer(connectionString, options
+		=> options.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name)));
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
@@ -67,12 +63,10 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 builder.Services.AddSingleton<TokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
-builder.Services.AddAuthorization(options =>
-{
-	options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
-	.RequireAuthenticatedUser()
-	.Build();
-});
+builder.Services.AddAuthorization(options
+	=> options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
+		.RequireAuthenticatedUser()
+		.Build());
 
 var app = builder.Build();
 

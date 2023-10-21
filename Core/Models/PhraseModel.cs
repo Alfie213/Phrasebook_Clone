@@ -5,18 +5,18 @@
 /// </summary>
 public sealed class PhraseModel
 {
-    /// <summary>
-    /// ID перевода.
-    /// </summary>
-    public required int TranslationId { get; init; }
+	/// <summary>
+	/// ID перевода.
+	/// </summary>
+	public required int TranslationId { get; init; }
 
-    /// <summary>
-    /// Текст фразы.
-    /// </summary>
-    public required string Text { get; init; }
+	/// <summary>
+	/// Текст фразы.
+	/// </summary>
+	public required string Text { get; init; }
 
-    /// <summary>
-    /// Файл озвучивания.
-    /// </summary>
-    public Uri? Audio { get; set; }
+	/// <summary>
+	/// Файл озвучивания.
+	/// </summary>
+	public Uri? Audio { get; set; }
 }
