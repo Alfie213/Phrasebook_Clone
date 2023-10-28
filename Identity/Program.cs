@@ -16,6 +16,8 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddRazorPages();
+
 var jwtOptions = new JwtOptions(builder.Configuration);
 builder.Services.AddSingleton(jwtOptions);
 
@@ -72,15 +74,22 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+	app.UseExceptionHandler("/Error");
+	app.UseHsts();
+
 	app.UseSwagger();
 	app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapRazorPages();
 app.MapControllers();
 
 app.Run();
