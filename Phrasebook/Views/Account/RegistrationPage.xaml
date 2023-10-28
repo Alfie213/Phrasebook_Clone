@@ -47,9 +47,14 @@
 
         <Button x:Name="signInButton"
                 Style="{StaticResource SignInButton}"
-                Text="Войти"
+                Text="Зарегистрироваться"
                 Command="{Binding SignUpCommand}" />
 
+        <ActivityIndicator x:Name="spinner"
+                   IsVisible="{Binding SignUpCommand.IsRunning}"
+                   PropertyChanged="OnSpinnerPropertyChanged"
+                   IsRunning="True" />
+        
         <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Spacing="10">
             <Label
                 Text="Уже зарегистрированы?"
