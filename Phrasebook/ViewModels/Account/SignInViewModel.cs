@@ -10,35 +10,45 @@ using System.Net.Http.Headers;
 
 namespace Phrasebook.ViewModels;
 
+/// <summary>
+/// Модель отображения для страницы входа.
+/// </summary>
 public sealed partial class SignInViewModel : ObservableObject
 {
-	private readonly AppShellViewModel _appShellViewModel;
 	private readonly IAuthenticationService _authenticationService;
 	private readonly FlyoutHeader _flyoutHeader;
 	private readonly HttpClient _client;
-	private readonly IUserService _userService;
 
+	/// <summary>
+	/// Почта.
+	/// </summary>
 	[ObservableProperty]
 	[NotifyCanExecuteChangedFor(nameof(SignInCommand))]
 	private string _email = "test@gmail.com";
 
+	/// <summary>
+	/// Пароль.
+	/// </summary>
 	[ObservableProperty]
 	[NotifyCanExecuteChangedFor(nameof(SignInCommand))]
 	private string _password = "Qte_653168";
 
-	public SignInViewModel(AppShellViewModel appShellViewModel,
-		IAuthenticationService service,
-		FlyoutHeader flyoutHeader,
-		HttpClient client,
-		IUserService userService)
+	/// <summary>
+	/// Создаёт экземпляр класса.
+	/// </summary>
+	/// <param name="service">Сервис авторизации.</param>
+	/// <param name="flyoutHeader">Шапка меню.</param>
+	/// <param name="client">HTTP клиент.</param>
+	public SignInViewModel(IAuthenticationService service, FlyoutHeader flyoutHeader, HttpClient client)
 	{
-		_appShellViewModel = appShellViewModel;
 		_authenticationService = service;
 		_flyoutHeader = flyoutHeader;
 		_client = client;
-		_userService = userService;
 	}
 
+	/// <summary>
+	/// Авторизует пользователя.
+	/// </summary>
 	[RelayCommand(CanExecute = nameof(CanSignIn))]
 	private async Task SignInAsync()
 	{
@@ -52,10 +62,12 @@ public sealed partial class SignInViewModel : ObservableObject
 
 		_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", response.Body);
 
-		Shell.Current.FlyoutHeader = _flyoutHeader;
-		await Shell.Current.GoToAsync($"//{nameof(LearnPage)}");
+		await GoToMainPageAsync();
 	}
 
+	/// <summary>
+	/// Открывает страницу регистрации.
+	/// </summary>
 	[RelayCommand]
 	private async Task GoToRegistrationAsync()
 	{
@@ -65,5 +77,11 @@ public sealed partial class SignInViewModel : ObservableObject
 	private bool CanSignIn()
 	{
 		return Email.Length > 0 && Password.Length > 0;
+	}
+
+	private async Task GoToMainPageAsync()
+	{
+		Shell.Current.FlyoutHeader = _flyoutHeader;
+		await Shell.Current.GoToAsync($"//{nameof(LearnPage)}");
 	}
 }
