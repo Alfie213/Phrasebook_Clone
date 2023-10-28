@@ -22,7 +22,7 @@ public static class MauiProgram
 			});
 
 #pragma warning disable CA2000
-		builder.Services.AddSingleton(new HttpClient() { BaseAddress = new Uri("http://localhost:5000/api/") });
+		builder.Services.AddSingleton(new HttpClient() { BaseAddress = new Uri("https://localhost:7291/api/") });
 #pragma warning restore CA2000
 
 		builder.Services.AddSingleton<AppShellViewModel>();
