@@ -14,14 +14,18 @@ using Microsoft.IdentityModel.Tokens;
 
 using System.Reflection;
 
-var builder = WebApplication.CreateBuilder(args);
+using Zvukogram;
 
-builder.Services.AddRazorPages();
+var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
+
+services.AddRazorPages();
+services.AddLocalization();
 
 var jwtOptions = new JwtOptions(builder.Configuration);
-builder.Services.AddSingleton(jwtOptions);
+services.AddSingleton(jwtOptions);
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 	.AddJwtBearer(options =>
 	{
 		if (builder.Environment.IsDevelopment())
@@ -44,17 +48,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 		};
 	});
 
-builder.Services.AddControllers();
+services.AddControllers();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+services.AddEndpointsApiExplorer();
+services.AddSwaggerGen();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<Context>(options
+services.AddDbContext<Context>(options
 	=> options.UseSqlServer(connectionString, options
 		=> options.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name)));
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
 	options.Password.RequireNonAlphanumeric = false;
 	options.Password.RequireDigit = false;
@@ -62,10 +66,19 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 })
 	.AddEntityFrameworkStores<Context>();
 
-builder.Services.AddSingleton<TokenService>();
-builder.Services.AddScoped<IUserService, UserService>();
+services.AddSingleton<TokenService>();
 
-builder.Services.AddAuthorization(options
+// Нужно ли всё это?
+services.AddScoped<IUserService, UserService>();
+services.AddHttpClient();
+services.AddScoped<ICardModelService, CardModelService>();
+services.AddScoped<IAudioService, AudioService>();
+services.AddScoped<ZvukogramService>();
+services.AddScoped<ISettingService, SettingService>();
+services.AddScoped<IAudioUploadService, AudioUploadService>();
+services.AddSingleton<FileService>();
+
+services.AddAuthorization(options
 	=> options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
 		.RequireAuthenticatedUser()
 		.Build());

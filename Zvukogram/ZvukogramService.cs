@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Net.Mime;
 using System.Text.Json;
 
@@ -11,27 +9,17 @@ namespace Zvukogram;
 /// <summary>
 /// Сервис для работы с API Звукограма.
 /// </summary>
-public class Service
+public class ZvukogramService
 {
 	private readonly HttpClient _client;
-	private readonly IConfiguration _configuration;
-	private readonly Uri _api;
 
 	/// <summary>
 	/// Создаёт экземпляр класса.
 	/// </summary>
 	/// <param name="client">HTTP клиент.</param>
-	/// <param name="configuration">Конфигурация.</param>
-	/// <exception cref="KeyNotFoundException">
-	/// Выбрасывается, если не удалось получить ссылку на API в <paramref name="configuration"/>.
-	/// </exception>
-	public Service(HttpClient client, IConfiguration configuration)
+	public ZvukogramService(HttpClient client)
 	{
 		_client = client;
-		_configuration = configuration;
-
-		_api = configuration.GetValue<Uri>("Api")
-			?? throw new KeyNotFoundException("Api");
 	}
 
 	/// <summary>
@@ -49,10 +37,10 @@ public class Service
 
 	internal virtual async Task<string> SendRequestAsync(Parameters parameters)
 	{
-		var body = new Body(_configuration, parameters).Serialize();
+		var body = new Body(parameters).Serialize();
 
 		using var content = CreateContent(body);
-		using var response = await _client.PostAsync(_api, content);
+		using var response = await _client.PostAsync(new Uri("https://zvukogram.com/index.php?r=api/text"), content);
 
 		return await response.Content.ReadAsStringAsync();
 	}

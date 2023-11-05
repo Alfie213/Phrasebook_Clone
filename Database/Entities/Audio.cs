@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Database.Entities;
+﻿namespace Database.Entities;
 
 /// <summary>
 /// Представляет таблицу с аудиофайлами.
@@ -12,9 +10,14 @@ public sealed class Audio
 	/// <summary>
 	/// ID аудиофайла.
 	/// </summary>
-	[ForeignKey(nameof(Translation))]
 	[Comment("ID аудиофайла.")]
 	public int Id { get; set; }
+
+	/// <summary>
+	/// ID перевода.
+	/// </summary>
+	[Comment("ID перевода.")]
+	public int TranslationId { get; set; }
 
 	/// <summary>
 	/// ID голоса, который озвучил этот аудиофайл.

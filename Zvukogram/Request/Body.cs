@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
@@ -35,22 +33,18 @@ internal sealed class Body
 	/// <summary>
 	/// Создаёт экземпляр класса.
 	/// </summary>
-	/// <param name="configuration">Конфигурация.</param>
-	public Body(IConfiguration configuration)
+	public Body()
 	{
-		ArgumentNullException.ThrowIfNull(configuration, nameof(configuration));
-
-		Email = GetConfigurationValue(configuration, "Email");
-		Token = GetConfigurationValue(configuration, "Token");
+		Email = ConfigurationService.Instance.Configuration["Email"] ?? throw new KeyNotFoundException();
+		Token = ConfigurationService.Instance.Configuration["Token"] ?? throw new KeyNotFoundException();
 	}
 
 	/// <summary>
 	/// Создаёт экземпляр класса.
 	/// </summary>
-	/// <param name="configuration">Конфигурация.</param>
 	/// <param name="parameters">Параметры запроса.</param>
 	[SetsRequiredMembers]
-	public Body(IConfiguration configuration, Parameters parameters) : this(configuration)
+	public Body(Parameters parameters) : this()
 	{
 		Text = parameters.Text;
 		Voice = parameters.Voice;
@@ -114,11 +108,5 @@ internal sealed class Body
 	public string Serialize()
 	{
 		return JsonConvert.SerializeObject(this, _settings);
-	}
-
-	private static string GetConfigurationValue(IConfiguration configuration, string key)
-	{
-		return configuration[key]
-			?? throw new KeyNotFoundException(key);
 	}
 }

@@ -187,7 +187,7 @@ public class RequestTests
 
 	private static Body CreateBody(IConfiguration configuration)
 	{
-		return new Body(configuration)
+		return new Body()
 		{
 			Text = "text",
 			Voice = "voice"

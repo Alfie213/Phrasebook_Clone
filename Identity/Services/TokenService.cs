@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Primitives;
+﻿using Azure.Core;
+
+using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 
 using System.IdentityModel.Tokens.Jwt;
@@ -64,4 +66,15 @@ public sealed class TokenService
 		var jwtSecurityToken = _tokenHandler.ReadJwtToken(token);
 		return jwtSecurityToken.Claims.First(claim => claim.Type == JwtRegisteredClaimNames.Sub).Value;
 	}
+
+	public string GetUserId(HttpRequest request)
+	{
+		ArgumentNullException.ThrowIfNull(request, nameof(request));
+
+		var authorization = request.Headers.Authorization;
+		var token = GetTokenFromAuthorizationHeader(authorization);
+
+		return GetUserId(token);
+	}
+
 }

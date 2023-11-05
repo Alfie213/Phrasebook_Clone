@@ -9,7 +9,7 @@ namespace ZvukogramTests;
 public class ServiceTests
 {
 	private readonly HttpClient _client;
-	private readonly Mock<Service> _service;
+	private readonly Mock<ZvukogramService> _service;
 
 	public ServiceTests()
 	{
@@ -21,7 +21,7 @@ public class ServiceTests
 		};
 
 		var configuration = Helper.CreateConfiguration(initialData);
-		_service = new Mock<Service>(_client, configuration);
+		_service = new Mock<ZvukogramService>(_client, configuration);
 	}
 
 	[TestMethod]

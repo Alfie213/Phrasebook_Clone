@@ -5,6 +5,7 @@ using Phrasebook.Services;
 using Phrasebook.ViewModels;
 using Phrasebook.ViewModels.Account;
 using Phrasebook.ViewModels.PartialViews;
+using Phrasebook.Views;
 using Phrasebook.Views.Account;
 
 namespace Phrasebook;
@@ -21,24 +22,29 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
+		var services = builder.Services;
+
 #pragma warning disable CA2000
-		builder.Services.AddSingleton(new HttpClient() { BaseAddress = new Uri("https://localhost:7291/api/") });
+		services.AddSingleton(new HttpClient() { BaseAddress = new Uri("https://localhost:7291/api/") });
 #pragma warning restore CA2000
 
-		builder.Services.AddSingleton<AppShellViewModel>();
+		services.AddSingleton<AppShellViewModel>();
 
-		builder.Services.AddSingleton<SignInViewModel>();
-		builder.Services.AddSingleton<SignInPage>();
+		services.AddSingleton<SignInViewModel>();
+		services.AddSingleton<SignInPage>();
 
-		builder.Services.AddSingleton<RegistrationViewModel>();
-		builder.Services.AddSingleton<RegistrationPage>();
+		services.AddSingleton<RegistrationViewModel>();
+		services.AddSingleton<RegistrationPage>();
 
-		builder.Services.AddSingleton<FlyoutHeaderViewModel>();
-		builder.Services.AddSingleton<FlyoutHeader>();
+		services.AddSingleton<FlyoutHeaderViewModel>();
+		services.AddSingleton<FlyoutHeader>();
 
-		builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
-		builder.Services.AddScoped<IRegistrationService, RegistrationService>();
-		builder.Services.AddScoped<IUserService, UserService>();
+		services.AddSingleton<LearnPageViewModel>();
+		services.AddSingleton<LearnPage>();
+
+		services.AddScoped<IAuthenticationService, AuthenticationService>();
+		services.AddScoped<IRegistrationService, RegistrationService>();
+		services.AddScoped<IUserService, UserService>();
 
 #if DEBUG
 		builder.Logging.AddDebug();

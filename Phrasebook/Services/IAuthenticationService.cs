@@ -7,11 +7,11 @@ namespace Phrasebook.Services;
 /// </summary>
 public interface IAuthenticationService
 {
-    /// <summary>
-    /// Авторизует пользователя в системе.
-    /// </summary>
-    /// <param name="email">Почта.</param>
-    /// <param name="password">Пароль.</param>
-    /// <returns>Возвращает токен для использования в дальнейших запросах.</returns>
-    Task<Response<string>> AuthenticateAsync(string email, string password);
+	/// <summary>
+	/// Авторизует пользователя в системе.
+	/// </summary>
+	/// <param name="email">Почта.</param>
+	/// <param name="password">Пароль.</param>
+	/// <returns>Возвращает токен для использования в дальнейших запросах.</returns>
+	Task<Response<string>> AuthenticateAsync(string email, string password);
 }

@@ -1,18 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Localization;
 
 namespace Identity.Pages;
 
+/// <summary>
+/// Главная страница.
+/// </summary>
 public class IndexModel : PageModel
 {
-	private readonly ILogger<IndexModel> _logger;
-
-	public IndexModel(ILogger<IndexModel> logger)
+	/// <summary>
+	/// Создаёт экземпляр класса.
+	/// </summary>
+	/// <param name="localizer">Локализатор.</param>
+	public IndexModel(IStringLocalizer<IndexModel> localizer)
 	{
-		_logger = logger;
+		Localizer = localizer;
 	}
 
-	public void OnGet()
-	{
-
-	}
+	/// <summary>
+	/// Локализатор.
+	/// </summary>
+	public IStringLocalizer<IndexModel> Localizer { get; }
 }

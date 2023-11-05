@@ -4,11 +4,18 @@
              x:Class="Phrasebook.Views.LearnPage"
              Title="LearnPage"
              Shell.NavBarIsVisible="True">
-    
+
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+       
+        <CarouselView ItemsSource="{Binding Cards}">
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <Frame>
+                        <Label Text="{Binding Translate.Text}"/>
+                    </Frame>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+
     </VerticalStackLayout>
 </ContentPage>

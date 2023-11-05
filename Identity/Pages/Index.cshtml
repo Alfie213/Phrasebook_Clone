@@ -4,7 +4,25 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<article>
+    <section class="main_content">
+        <div>
+            <h1>@Model.Localizer["Heading title"]</h1>
+            <p class="description">@Model.Localizer["Description"]</p>
+            
+            <div>
+                <img src="~/assets/images/main-photo.png" alt="@Model.Localizer["Mobile application screenshot"]" class="phone_image_mobile" />
+                <div class="button_group">
+                    <button class="primary_button">@Model.Localizer["Download now"]</button>
+                    <button class="secondary_button">@Model.Localizer["Find out more"]</button>
+                </div>
+            </div>
+            
+        </div>
+        <img src="~/assets/images/bg-main-photo.png" class="figure_image" alt="" role="presentation" />
+        <img src="~/assets/images/main-photo.png" alt="@Model.Localizer["Mobile application screenshot"]" class="phone_image" />
+    </section>
+
+    <component type="typeof(About)" render-mode="Static" />
+    <component type="typeof(Download)" render-mode="Static" />
+</article>
