@@ -1,0 +1,30 @@
+<Shell
+    x:Class="Phrasebook.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:Phrasebook.Views"
+    xmlns:account="clr-namespace:Phrasebook.Views.Account"
+    Shell.NavBarIsVisible="False">
+
+    <ShellContent
+            Shell.FlyoutBehavior="Disabled"
+            Shell.FlyoutItemIsVisible="False"
+            ContentTemplate="{DataTemplate account:SignInPage}"
+            Route="SignInPage"/>
+
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent
+            Title="Learn"
+            ContentTemplate="{DataTemplate views:LearnPage}"
+            Route="LearnPage"/>
+    </FlyoutItem>
+
+    <Shell.FlyoutFooter>
+        <StackLayout>
+            <Button
+                Text="Выйти"
+                Command="{Binding SignOutCommand}"/>
+        </StackLayout>
+    </Shell.FlyoutFooter>
+
+</Shell>

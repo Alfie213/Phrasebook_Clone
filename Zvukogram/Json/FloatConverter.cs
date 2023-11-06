@@ -9,20 +9,20 @@ namespace Zvukogram.Json;
 /// </summary>
 public class FloatConverter : JsonConverter<float>
 {
-    /// <inheritdoc/>
-    public override bool CanRead => false;
+	/// <inheritdoc/>
+	public override bool CanRead => false;
 
-    /// <inheritdoc/>
-    public override float ReadJson(JsonReader reader, Type objectType, float existingValue, bool hasExistingValue, JsonSerializer serializer)
-    {
-        throw new NotImplementedException();
-    }
+	/// <inheritdoc/>
+	public override float ReadJson(JsonReader reader, Type objectType, float existingValue, bool hasExistingValue, JsonSerializer serializer)
+	{
+		throw new NotImplementedException();
+	}
 
-    /// <inheritdoc/>
-    public override void WriteJson(JsonWriter writer, float value, JsonSerializer serializer)
-    {
-        ArgumentNullException.ThrowIfNull(writer);
+	/// <inheritdoc/>
+	public override void WriteJson(JsonWriter writer, float value, JsonSerializer serializer)
+	{
+		ArgumentNullException.ThrowIfNull(writer);
 
-        writer.WriteRawValue(value.ToString("G", CultureInfo.InvariantCulture));
-    }
+		writer.WriteRawValue(value.ToString("G", CultureInfo.InvariantCulture));
+	}
 }

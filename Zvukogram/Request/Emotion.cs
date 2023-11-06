@@ -5,18 +5,18 @@
 /// </summary>
 public enum Emotion
 {
-    /// <summary>
-    /// Добрый.
-    /// </summary>
-    Good,
+	/// <summary>
+	/// Добрый.
+	/// </summary>
+	Good,
 
-    /// <summary>
-    /// Злой.
-    /// </summary>
-    Evil,
+	/// <summary>
+	/// Злой.
+	/// </summary>
+	Evil,
 
-    /// <summary>
-    /// Нейтральный.
-    /// </summary>
-    Neutral
+	/// <summary>
+	/// Нейтральный.
+	/// </summary>
+	Neutral
 }

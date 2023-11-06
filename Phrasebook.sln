@@ -11,14 +11,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{608742DC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZvukogramTests", "ZvukogramTests\ZvukogramTests.csproj", "{73500B31-CFE0-4456-8BA2-E95988A5C62C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{64EC3AB4-27E1-44CE-9D4C-DB75DD7F4F75}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity", "Identity\Identity.csproj", "{2281AF2A-8D31-4323-B9C6-CE8F5E00D708}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{BC5C9ABE-940D-4546-8C91-791A838E14FF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Phrasebook", "Phrasebook\Phrasebook.csproj", "{4DB9301E-EE2F-424B-A8A8-739975F23242}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,6 +43,12 @@ Global
 		{BC5C9ABE-940D-4546-8C91-791A838E14FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC5C9ABE-940D-4546-8C91-791A838E14FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC5C9ABE-940D-4546-8C91-791A838E14FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DB9301E-EE2F-424B-A8A8-739975F23242}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DB9301E-EE2F-424B-A8A8-739975F23242}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DB9301E-EE2F-424B-A8A8-739975F23242}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{4DB9301E-EE2F-424B-A8A8-739975F23242}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DB9301E-EE2F-424B-A8A8-739975F23242}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DB9301E-EE2F-424B-A8A8-739975F23242}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

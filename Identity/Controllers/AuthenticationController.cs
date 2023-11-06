@@ -14,42 +14,42 @@ namespace Identity.Controllers;
 [Route("api/[controller]")]
 public sealed class AuthenticationController : ControllerBase
 {
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly TokenService _tokenService;
+	private readonly UserManager<IdentityUser> _userManager;
+	private readonly TokenService _tokenService;
 
-    /// <summary>
-    /// Создаёт экземпляр класса.
-    /// </summary>
-    /// <param name="userManager"><see cref="UserManager{TUser}"/>.</param>
-    /// <param name="tokenService">Сервис для работы с JWT токеном.</param>
-    public AuthenticationController(UserManager<IdentityUser> userManager, TokenService tokenService)
-    {
-        _userManager = userManager;
-        _tokenService = tokenService;
-    }
+	/// <summary>
+	/// Создаёт экземпляр класса.
+	/// </summary>
+	/// <param name="userManager"><see cref="UserManager{TUser}"/>.</param>
+	/// <param name="tokenService">Сервис для работы с JWT токеном.</param>
+	public AuthenticationController(UserManager<IdentityUser> userManager, TokenService tokenService)
+	{
+		_userManager = userManager;
+		_tokenService = tokenService;
+	}
 
-    [HttpGet("token")]
-    public async Task<IActionResult> GetTokenAsync(string email, string password)
-    {
-        if (string.IsNullOrEmpty(email))
-        {
-            return BadRequest($"{email} не может быть пустым.");
-        }
+	[HttpGet("token")]
+	public async Task<IActionResult> GetTokenAsync(string email, string password)
+	{
+		if (string.IsNullOrEmpty(email))
+		{
+			return BadRequest($"{email} не может быть пустым");
+		}
 
-        if (string.IsNullOrEmpty(password))
-        {
-            return BadRequest($"{password} не может быть пустым.");
-        }
+		if (string.IsNullOrEmpty(password))
+		{
+			return BadRequest($"{password} не может быть пустым");
+		}
 
-        var user = await _userManager.FindByEmailAsync(email);
+		var user = await _userManager.FindByEmailAsync(email);
 
-        if (user is not null && await _userManager.CheckPasswordAsync(user, password))
-        {
-            var token = _tokenService.CreateToken(user.Id);
+		if (user is not null && await _userManager.CheckPasswordAsync(user, password))
+		{
+			var token = _tokenService.CreateToken(user.Id);
 
-            return Ok(new JwtSecurityTokenHandler().WriteToken(token));
-        }
+			return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+		}
 
-        return BadRequest("Введены неверные учетные данные.");
-    }
+		return BadRequest("Пользователя с такими учётными данными не существует");
+	}
 }

@@ -14,62 +14,76 @@ using Microsoft.IdentityModel.Tokens;
 
 using System.Reflection;
 
+using Zvukogram;
+
 var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
+
+services.AddRazorPages();
+services.AddLocalization();
 
 builder.Services.AddRazorPages();
 
 var jwtOptions = new JwtOptions(builder.Configuration);
-builder.Services.AddSingleton(jwtOptions);
+services.AddSingleton(jwtOptions);
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        if (builder.Environment.IsDevelopment())
-        {
-            options.RequireHttpsMetadata = false;
-        }
+services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+	.AddJwtBearer(options =>
+	{
+		if (builder.Environment.IsDevelopment())
+		{
+			options.RequireHttpsMetadata = false;
+		}
 
-        options.ClaimsIssuer = jwtOptions.Issuer;
-        options.Audience = jwtOptions.Audience;
+		options.ClaimsIssuer = jwtOptions.Issuer;
+		options.Audience = jwtOptions.Audience;
 
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            ValidateLifetime = true,
-            IssuerSigningKey = jwtOptions.Key,
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidIssuer = jwtOptions.Issuer,
-            ValidAudience = jwtOptions.Audience,
-        };
-    });
+		options.TokenValidationParameters = new TokenValidationParameters
+		{
+			ValidateIssuerSigningKey = true,
+			ValidateLifetime = true,
+			IssuerSigningKey = jwtOptions.Key,
+			ValidateIssuer = true,
+			ValidateAudience = true,
+			ValidIssuer = jwtOptions.Issuer,
+			ValidAudience = jwtOptions.Audience,
+		};
+	});
 
-builder.Services.AddControllers();
+services.AddControllers();
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+services.AddEndpointsApiExplorer();
+services.AddSwaggerGen();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<Context>(options =>
+services.AddDbContext<Context>(options
+	=> options.UseSqlServer(connectionString, options
+		=> options.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name)));
+
+services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
-    options.UseSqlServer(connectionString, options =>
-    {
-        options.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name);
-    });
-});
+	options.Password.RequireNonAlphanumeric = false;
+	options.Password.RequireDigit = false;
+	options.Password.RequireUppercase = false;
+})
+	.AddEntityFrameworkStores<Context>();
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<Context>();
+services.AddSingleton<TokenService>();
 
-builder.Services.AddSingleton<TokenService>();
-builder.Services.AddScoped<IUserService, UserService>();
+// Нужно ли всё это?
+services.AddScoped<IUserService, UserService>();
+services.AddHttpClient();
+services.AddScoped<ICardModelService, CardModelService>();
+services.AddScoped<IAudioService, AudioService>();
+services.AddScoped<ZvukogramService>();
+services.AddScoped<ISettingService, SettingService>();
+services.AddScoped<IAudioUploadService, AudioUploadService>();
+services.AddSingleton<FileService>();
 
-builder.Services.AddAuthorization(options =>
-{
-    options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
-    .RequireAuthenticatedUser()
-    .Build();
-});
+services.AddAuthorization(options
+	=> options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
+		.RequireAuthenticatedUser()
+		.Build());
 
 var app = builder.Build();
 

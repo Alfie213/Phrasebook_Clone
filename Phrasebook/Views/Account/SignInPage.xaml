@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Phrasebook.Views.Account.SignInPage"
+            Shell.FlyoutBehavior="Disabled"
+             Title="SignIn">
+
+    <VerticalStackLayout
+        Style="{StaticResource AccountWrapper}">
+
+        <Label
+            Style="{StaticResource AccountTitle}"
+            Text="Войти"/>
+
+        <Entry
+            x:Name="emailEntry"
+            Text="{Binding Email}"
+            Placeholder="Email" />
+
+        <Entry
+            x:Name="passwordEntry"
+            Style="{StaticResource SignInPassword}"
+            Text="{Binding Password}"
+            Placeholder="Пароль" />
+        
+        <StackLayout Orientation="Horizontal">
+            
+            <CheckBox 
+                IsChecked="False"/>
+
+            <Label 
+                Text="Запомнить меня"
+                VerticalTextAlignment="Center"
+                HorizontalTextAlignment="Center"/>
+
+            <Label
+                Text="Забыли пароль"
+                FontAttributes="Bold"
+                HorizontalOptions="EndAndExpand"
+                VerticalTextAlignment="Center"
+                HorizontalTextAlignment="Center"/>
+        </StackLayout>
+
+        <Button x:Name="signInButton"
+                Style="{StaticResource SignInButton}"
+                Text="Войти"
+                Command="{Binding SignInCommand}" />
+
+        <ActivityIndicator x:Name="spinner"
+                           IsVisible="{Binding SignInCommand.IsRunning}"
+                           PropertyChanged="OnSpinnerPropertyChanged"
+                           IsRunning="True" />
+
+        <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Spacing="10">
+            <Label
+                Text="Новый пользователь?"
+                TextColor="Gray"/>
+
+            <Label
+                Text="Регистрация">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer 
+                        Command="{Binding GoToRegistrationCommand}"/>
+                </Label.GestureRecognizers>
+            </Label>
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>
+    
